@@ -1,0 +1,134 @@
+[gd_scene load_steps=7 format=3 uid="uid://ccjl7yncddosj"]
+
+[ext_resource type="Texture2D" uid="uid://cxq06a1kcsw12" path="res://Assets/Tilemap.png" id="1_alsb2"]
+[ext_resource type="Script" path="res://Code/main.gd" id="1_rsb8f"]
+[ext_resource type="Script" path="res://Code/Tilemap.gd" id="3_e6hw2"]
+[ext_resource type="Script" path="res://Code/Clock.gd" id="4_guonp"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_65bjt"]
+texture = ExtResource("1_alsb2")
+margins = Vector2i(2, 2)
+separation = Vector2i(3, 2)
+texture_region_size = Vector2i(269, 205)
+0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+1:2/0 = 0
+1:1/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+2:1/0 = 0
+2:2/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+3:2/0 = 0
+3:1/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+4:1/0 = 0
+4:2/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+5:2/0 = 0
+5:1/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+6:1/0 = 0
+6:2/0 = 0
+6:3/0 = 0
+7:0/0 = 0
+7:1/0 = 0
+7:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_3pkvb"]
+tile_size = Vector2i(280, 220)
+sources/0 = SubResource("TileSetAtlasSource_65bjt")
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_rsb8f")
+
+[node name="Wallpaper" type="ColorRect" parent="."]
+offset_right = 1156.0
+offset_bottom = 654.0
+color = Color(0.133333, 0.694118, 0.298039, 1)
+
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2(68, 52)
+scale = Vector2(0.6, 0.6)
+tile_set = SubResource("TileSet_3pkvb")
+rendering_quadrant_size = 49
+format = 2
+layer_0/name = "Main"
+layer_0/tile_data = PackedInt32Array(0, 458752, 0, 1, 458752, 0, 65537, 458752, 0, 65536, 458752, 0, 65538, 458752, 0, 2, 458752, 0, 3, 458752, 0, 65539, 458752, 0, 131072, 458752, 0, 131073, 458752, 0, 131075, 458752, 0, 131074, 458752, 0, 196609, 458752, 0, 196608, 458752, 0, 196610, 458752, 0, 196611, 458752, 0, 196612, 458752, 0, 131076, 458752, 0, 65540, 458752, 0, 4, 458752, 0, 65541, 458752, 0, 131077, 458752, 0, 196613, 458752, 0, 5, 458752, 0)
+layer_1/name = "Overlay"
+layer_1/tile_data = PackedInt32Array(65536, 458752, 0)
+script = ExtResource("3_e6hw2")
+
+[node name="Fail to match" type="Timer" parent="TileMap"]
+wait_time = 1.5
+one_shot = true
+
+[node name="Block Clicking" type="Timer" parent="TileMap"]
+wait_time = 0.2
+one_shot = true
+
+[node name="Clock" type="Label" parent="."]
+offset_left = 441.0
+offset_top = 573.0
+offset_right = 695.0
+offset_bottom = 642.0
+theme_override_colors/font_color = Color(0.807843, 0.807843, 0.807843, 1)
+theme_override_colors/font_shadow_color = Color(0.419608, 0.419608, 0.419608, 1)
+theme_override_font_sizes/font_size = 50
+text = "23.1"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_guonp")
+
+[node name="Start Menu" type="Panel" parent="."]
+offset_left = 473.0
+offset_top = 227.0
+offset_right = 667.0
+offset_bottom = 381.0
+
+[node name="Button" type="Button" parent="Start Menu"]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 85.0
+offset_right = 157.0
+offset_bottom = 126.0
+text = "Play"
+
+[node name="Label" type="Label" parent="Start Menu"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 14.0
+offset_right = 190.0
+offset_bottom = 70.0
+text = "Chemistry 
+Match Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Times" type="Panel" parent="Start Menu"]
+offset_left = 249.0
+offset_top = -96.0
+offset_right = 352.0
+offset_bottom = 243.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Start Menu/Times"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 11.0
+offset_right = 80.0
+offset_bottom = 258.0
+
+[node name="Title" type="Label" parent="Start Menu/Times/VBoxContainer"]
+layout_mode = 2
+text = "Times"
+horizontal_alignment = 1
+
+[connection signal="timeout" from="TileMap/Fail to match" to="TileMap" method="_on_fail_to_match_timeout"]
+[connection signal="button_down" from="Start Menu/Button" to="." method="_on_button_button_down"]
